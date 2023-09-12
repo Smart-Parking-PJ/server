@@ -35,3 +35,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### spring ###
+gradle/wrapper/
+gradlew/
+gradlew.bat/
