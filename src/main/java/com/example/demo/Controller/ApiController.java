@@ -12,14 +12,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
+//@RequiredArgsConstructor 생성자 자동생성 어노테이션인데 왜 안되는건지 모르겠다
 @RestController
-@RequiredArgsConstructor
 public class ApiController {
 
 
     private final ParkingService parkingService;
+
+    @Autowired
+    public ApiController(ParkingService parkingService) {
+        this.parkingService = parkingService;
+    }
 
     @PostMapping("/parking")
     public ResponseEntity<String> addParkingInfo(@RequestBody ParkingInfo parkingInfo) {
