@@ -14,7 +14,7 @@ public class ParkingInfoSender {
     public static void main(String[] args) {
         // Create a ParkingInfo object with the data you want to send
         ParkingInfo parkingInfo = new ParkingInfo();
-        parkingInfo.setId(1L);
+        parkingInfo.setId(2L);
         parkingInfo.setEntryTime(new Timestamp(System.currentTimeMillis()));
         parkingInfo.setEmptyspace(10L);
         parkingInfo.setCurrentcar(5);

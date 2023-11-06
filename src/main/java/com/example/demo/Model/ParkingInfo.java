@@ -13,7 +13,7 @@ import java.util.Date;
 public class ParkingInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Override
     public String toString() {
@@ -37,7 +37,7 @@ public class ParkingInfo {
     private Date entryTime; //차 들어온 시간
 
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -65,12 +65,12 @@ public class ParkingInfo {
         this.currentcar = currentcar;
     }
 
-    private long emptyspace; //주차 가능 수
+    private Long emptyspace; //주차 가능 수
     private int currentcar; //현재 주차된 차 수
     private String parkingname; // 주차장 이름
 
     public ParkingInfo(){}
-    public long getId() {
+    public Long getId() {
         return id;
     }
 }
