@@ -41,7 +41,7 @@ public class ParkingInfoSender {
         HttpEntity<String> requestEntity = new HttpEntity<>(json, headers);
 
         // Define the API endpoint URL
-        String apiUrl = "http://43.200.254.150:8080/parking";
+        String apiUrl = "http://localhost:8080/parking";
 
         // Send the POST request
         restTemplate.postForObject(apiUrl, requestEntity, String.class);

@@ -2,10 +2,7 @@ package com.example.demo.Model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -25,6 +22,21 @@ public class ParkingInfo {
                 ", parkingname='" + parkingname + '\'' +
                 '}';
     }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public void setEmptyspace(Long emptyspace) {
+        this.emptyspace = emptyspace;
+    }
+
+    @Lob
+    private byte[] image;
 
     public Date getEntryTime() {
         return entryTime;

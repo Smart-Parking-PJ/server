@@ -2,6 +2,7 @@ package com.example.demo.Controller;
 
 import com.example.demo.Model.ParkingInfo;
 import com.example.demo.Service.ParkingService;
+import com.example.demo.Service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,8 @@ import java.util.List;
 @RestController
 public class ApiController {
 
-
+    @Autowired
+    private TransactionService transactionService;
     private final ParkingService parkingService;
 
     @Autowired
@@ -26,9 +28,24 @@ public class ApiController {
     }
 
     @PostMapping("/parking")
-    public ResponseEntity<String> addParkingInfo(@RequestBody ParkingInfo parkingInfo) {
-        ParkingInfo savedParkingInfo = parkingService.saveParkingInfo(parkingInfo);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Parking information saved with ID: " + savedParkingInfo.getId());
+    public ResponseEntity<String> addParkingInfo(@RequestBody ParkingInfo data) {
+        try {
+            // 이미지를 받아서 ParkingInfo 객체에 저장
+            byte[] imageData = data.getImage();
+
+            // 데이터베이스에 저장할 ParkingInfo 객체 생성
+            ParkingInfo parkingInfo = new ParkingInfo();
+            parkingInfo.setEntryTime(data.getEntryTime());
+            parkingInfo.setEmptyspace(data.getEmptyspace());
+            parkingInfo.setCurrentcar(data.getCurrentcar());
+            parkingInfo.setParkingname(data.getParkingname());
+            parkingInfo.setImage(imageData); // 이미지 데이터 설정
+
+            transactionService.saveData(parkingInfo); // 데이터베이스에 저장
+            return ResponseEntity.ok("Data saved successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to save the data.");
+        }
     }
 
     @GetMapping("/parking")
