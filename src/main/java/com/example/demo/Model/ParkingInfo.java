@@ -49,8 +49,8 @@ public class ParkingInfo {
         this.parkingname = parkingname;
     }
 
-    public long getEmptyspace() {
-        return emptyspace;
+    public Long getEmptyspace() {
+        return emptyspace - currentcar;
     }
 
     public void setEmptyspace(long emptyspace) {
@@ -73,4 +73,7 @@ public class ParkingInfo {
     public Long getId() {
         return id;
     }
+
+
+
 }

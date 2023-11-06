@@ -14,10 +14,10 @@ public class ParkingInfoSender {
     public static void main(String[] args) {
         // Create a ParkingInfo object with the data you want to send
         ParkingInfo parkingInfo = new ParkingInfo();
-        parkingInfo.setId(2L);
+        parkingInfo.setId(1L);
         parkingInfo.setEntryTime(new Timestamp(System.currentTimeMillis()));
         parkingInfo.setEmptyspace(10L);
-        parkingInfo.setCurrentcar(5);
+        parkingInfo.setCurrentcar(1);
         parkingInfo.setParkingname("Sample Parking");
 
         // Create a RestTemplate
@@ -41,7 +41,7 @@ public class ParkingInfoSender {
         HttpEntity<String> requestEntity = new HttpEntity<>(json, headers);
 
         // Define the API endpoint URL
-        String apiUrl = "http://3.35.14.63:8080/parking";
+        String apiUrl = "http://43.200.254.150:8080/parking";
 
         // Send the POST request
         restTemplate.postForObject(apiUrl, requestEntity, String.class);
