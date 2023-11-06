@@ -7,10 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -28,10 +26,10 @@ public class ApiController {
     }
 
     @PostMapping("/parking")
-    public ResponseEntity<String> addParkingInfo(@RequestBody ParkingInfo data) {
+    public ResponseEntity<String> addParkingInfo(@RequestParam("image") MultipartFile image, @ModelAttribute ParkingInfo data) {
         try {
-            // 이미지를 받아서 ParkingInfo 객체에 저장
-            byte[] imageData = data.getImage();
+            // 이미지를 바이트 배열로 변환
+            byte[] imageData = image.getBytes();
 
             // 데이터베이스에 저장할 ParkingInfo 객체 생성
             ParkingInfo parkingInfo = new ParkingInfo();
@@ -47,6 +45,7 @@ public class ApiController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to save the data.");
         }
     }
+
 
     @GetMapping("/parking")
     public List<ParkingInfo> getAllParkingInfo() {
