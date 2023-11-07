@@ -3,10 +3,12 @@ package com.example.demo.Controller;
 import com.example.demo.Model.ParkingInfo;
 import com.example.demo.Service.ParkingService;
 import com.example.demo.Service.TransactionService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,30 +27,38 @@ public class ApiController {
         this.parkingService = parkingService;
     }
 
-    @PostMapping("/parking")
-    public ResponseEntity<String> addParkingInfo(@RequestParam("image") MultipartFile image, @ModelAttribute ParkingInfo data) {
+    @PatchMapping("/test")
+    public ResponseEntity<String> addParkingInfo(@RequestBody ParkingInfo data) {
+        transactionService.saveData(data);
+        return ResponseEntity.ok("Data saved successfully.");
+    }
+
+    @PatchMapping("/parking")
+    public ResponseEntity<String> addParkingInfoWithImage(@RequestPart("file") MultipartFile file, @RequestPart("data") String data) {
         try {
-            // 이미지를 바이트 배열로 변환
-            byte[] imageData = image.getBytes();
+            // MultipartFile에서 이미지 데이터(byte 배열) 추출
+            byte[] imageData = file.getBytes();
 
-            // 데이터베이스에 저장할 ParkingInfo 객체 생성
-            ParkingInfo parkingInfo = new ParkingInfo();
-            parkingInfo.setEntryTime(data.getEntryTime());
-            parkingInfo.setEmptyspace(data.getEmptyspace());
-            parkingInfo.setCurrentcar(data.getCurrentcar());
-            parkingInfo.setParkingname(data.getParkingname());
-            parkingInfo.setImage(imageData); // 이미지 데이터 설정
+            // JSON 형식의 데이터를 ParkingInfo 객체로 변환
+            ObjectMapper objectMapper = new ObjectMapper();
+            ParkingInfo parkingInfo = objectMapper.readValue(data, ParkingInfo.class);
 
-            transactionService.saveData(parkingInfo); // 데이터베이스에 저장
-            return ResponseEntity.ok("Data saved successfully.");
+            // ParkingInfo 객체에 이미지 데이터 설정
+            parkingInfo.setImage(imageData);
+
+            // 데이터베이스에 저장
+            transactionService.saveData(parkingInfo);
+
+            return ResponseEntity.ok("Data and image saved successfully.");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to save the data.");
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to save the data and image.");
         }
     }
 
 
     @GetMapping("/parking")
-    public List<ParkingInfo> getAllParkingInfo() {
-        return parkingService.getAllParkingInfo();
+    public List<ParkingInfo>  getAllParkingInfo() {
+    return parkingService.getAllParkingInfo();
     }
 }

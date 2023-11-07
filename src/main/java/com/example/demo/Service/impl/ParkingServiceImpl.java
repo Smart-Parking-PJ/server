@@ -6,6 +6,7 @@ import com.example.demo.Service.ParkingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.List;
 
 
@@ -25,7 +26,8 @@ public class ParkingServiceImpl implements ParkingService {
 
     @Override
     public List<ParkingInfo> getAllParkingInfo() {
-        return (List<ParkingInfo>) parkingInfoRepository.findAll();
+        List<ParkingInfo> parkingInfos = parkingInfoRepository.findAll();
+        return parkingInfos;
     }
 
 }

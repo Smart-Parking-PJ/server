@@ -1,49 +1,77 @@
 package com.example.demo;
-
 import com.example.demo.Model.ParkingInfo;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 
-import java.sql.Timestamp;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 public class ParkingInfoSender {
     public static void main(String[] args) {
-        // Create a ParkingInfo object with the data you want to send
+        // Create a ParkingInfo object with the data you want to update
         ParkingInfo parkingInfo = new ParkingInfo();
-        parkingInfo.setId(1L);
-        parkingInfo.setEntryTime(new Timestamp(System.currentTimeMillis()));
-        parkingInfo.setEmptyspace(10L);
-        parkingInfo.setCurrentcar(1);
-        parkingInfo.setParkingname("Sample Parking");
+        parkingInfo.setParkingname("N7앞 주차장");
+        parkingInfo.setCurrentcar(0L);
+        parkingInfo.setEmptyspace(0L);
 
-        // Create a RestTemplate
-        RestTemplate restTemplate = new RestTemplate();
+        // Load the image from a file or any other source
+        byte[] imageBytes = loadImageFromFile("image/park1.jpg");
 
-        // Create an ObjectMapper to convert ParkingInfo to JSON
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json;
-        try {
-            json = objectMapper.writeValueAsString(parkingInfo);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
+        // Create a RestTemplate with HttpComponentsClientHttpRequestFactory
+        RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
 
         // Set the request headers
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
-        // Create an HTTP entity with the JSON data and headers
-        HttpEntity<String> requestEntity = new HttpEntity<>(json, headers);
+        // Create a MultiPart request entity
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("data", parkingInfo);
+        body.add("file", new ByteArrayResource(imageBytes) {
+            @Override
+            public String getFilename() {
+                return "image.jpg";
+            }
+        });
 
-        // Define the API endpoint URL
+        // Create an HttpEntity with the headers and body
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+
+        // Define the API endpoint URL for PATCH
         String apiUrl = "http://43.200.254.150:8080/parking";
 
-        // Send the POST request
-        restTemplate.postForObject(apiUrl, requestEntity, String.class);
+        // Send the PATCH request using HttpPatch
+        ResponseEntity<String> responseEntity = restTemplate.exchange(apiUrl, HttpMethod.PATCH, requestEntity, String.class);
+
+        // Handle the response as needed
+        String response = responseEntity.getBody();
+        System.out.println("Response: " + response);
+    }
+
+    private static byte[] loadImageFromFile(String filePath) {
+        try {
+            File file = new File(filePath);
+            if (file.exists()) {
+                FileInputStream fileInputStream = new FileInputStream(file);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+                    byteArrayOutputStream.write(buffer, 0, bytesRead);
+                }
+                return byteArrayOutputStream.toByteArray();
+            } else {
+                return new byte[0];
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new byte[0];
+        }
     }
 }

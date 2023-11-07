@@ -5,7 +5,7 @@ import com.example.demo.Repository.ParkingInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TransactionService {
@@ -14,11 +14,9 @@ public class TransactionService {
 
     @Transactional
     public void saveData(ParkingInfo data){
-        try{
-            parkingInfoRepository.save(data);
-        }catch(Exception e){
 
-        }
+            parkingInfoRepository.save(data);
+
     }
 
 }
