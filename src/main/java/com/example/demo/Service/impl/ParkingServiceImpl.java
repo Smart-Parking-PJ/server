@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -29,5 +30,11 @@ public class ParkingServiceImpl implements ParkingService {
         List<ParkingInfo> parkingInfos = parkingInfoRepository.findAll();
         return parkingInfos;
     }
+    @Override
+    public Optional<ParkingInfo> getParkingInfoById(Integer id) {
+        return parkingInfoRepository.findById(id);
+    }
+
+
 
 }

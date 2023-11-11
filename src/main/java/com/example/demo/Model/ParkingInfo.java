@@ -13,11 +13,11 @@ import java.util.Date;
 public class ParkingInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private Long currentcar; //현재 주차된 차량 수
-    private Long emptyspace; //주차 가능한 공간 수
+    private Integer id;
+    private Integer currentcar; //현재 주차된 차량 수
+    private Integer emptyspace; //주차 가능한 공간 수
     private String parkingname; // 주차장 이름
-    private Long totalspace;
+    private Integer totalspace;
 
     @Lob
     private byte[] image;
@@ -26,18 +26,29 @@ public class ParkingInfo {
         return image;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setEmptyspace(Long emptyspace) {
-        this.emptyspace = emptyspace;
-    }
-
-
-
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getCurrentcar() {
+        return currentcar;
+    }
+
+    public void setCurrentcar(Integer currentcar) {
+        this.currentcar = currentcar;
+    }
+
+    public Integer getEmptyspace() {
+        return emptyspace;
+    }
+
+    public void setEmptyspace(Integer emptyspace) {
+        this.emptyspace = emptyspace;
     }
 
     public String getParkingname() {
@@ -48,27 +59,20 @@ public class ParkingInfo {
         this.parkingname = parkingname;
     }
 
-    public Long getEmptyspace() {
-        return emptyspace - currentcar;
+    public Integer getTotalspace() {
+        return totalspace;
     }
 
-    public void setEmptyspace(long emptyspace) {
-        this.emptyspace = emptyspace;
+    public void setTotalspace(Integer totalspace) {
+        this.totalspace = totalspace;
     }
 
-    public Long getCurrentcar() {
-        return currentcar;
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
-    public void setCurrentcar(Long currentcar) {
-        this.currentcar = currentcar;
-    }
+    public ParkingInfo(){}
 
-
-    public ParkingInfo(){this.totalspace = 50L;}
-    public Long getId() {
-        return id;
-    }
 
 
 
