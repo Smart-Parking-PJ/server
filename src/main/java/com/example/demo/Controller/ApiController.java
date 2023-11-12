@@ -118,4 +118,13 @@ public class ApiController {
     public List<ParkingInfo>  getAllParkingInfo() {
      return parkingService.getAllParkingInfo();
     }
+    @GetMapping("/parking/{id}")
+    public ResponseEntity<ParkingInfo> getParkingInfoById(@PathVariable Integer id) {
+        Optional<ParkingInfo> parkingInfoOptional = parkingService.getParkingInfoById(id);
+
+        return parkingInfoOptional
+                .map(parkingInfo -> ResponseEntity.ok().body(parkingInfo))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 }

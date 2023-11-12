@@ -22,7 +22,7 @@ public class ParkingInfoSender {
         parkingInfo.setTotalspace(50); // Add totalspace if needed
 
         // Load the image from a file or any other source
-        byte[] imageBytes = loadImageFromFile("image/park1.jpg");
+        byte[] imageBytes = loadImageFromFile("image/park2.jpg");
 
         // Create a RestTemplate with HttpComponentsClientHttpRequestFactory
         RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
@@ -48,6 +48,7 @@ public class ParkingInfoSender {
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
         // Define the API endpoint URL for PATCH
+        //String apiUrl = "http://43.200.254.150:8080/parking";
         String apiUrl = "http://localhost:8080/parking";
 
         // Send the PATCH request using HttpPatch
