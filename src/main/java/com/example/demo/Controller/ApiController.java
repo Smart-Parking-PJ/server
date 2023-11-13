@@ -70,9 +70,10 @@ public class ApiController {
                                                     @RequestParam(value = "currentcar", required = false) Integer currentcar,
                                                     @RequestParam(value = "emptyspace", required = false) Integer emptyspace,
                                                     @RequestParam(value = "parkingname", required = false) String parkingname,
-                                                    @RequestParam(value = "image", required = false) byte[] image,
+                                                    @RequestPart(value = "image", required = false) MultipartFile image,
                                                     @RequestParam(value = "totalspace", required = false) Integer totalspace)  {
         try {
+            byte[] imageData = image.getBytes();
             // ID에 해당하는 데이터를 검색
             Optional<ParkingInfo> existingDataOptional = parkingService.getParkingInfoById(id);
 
@@ -82,7 +83,7 @@ public class ApiController {
 
                 // 이미지 데이터 업데이트
                 if (image != null) {
-                    existingData.setImage(image);
+                    existingData.setImage(imageData);
                 }
                 // 나머지 필드 업데이트
                 if (currentcar != null) {
