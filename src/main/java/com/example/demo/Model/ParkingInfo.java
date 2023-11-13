@@ -20,9 +20,9 @@ public class ParkingInfo {
     private Integer totalspace;
 
     @Lob
-    private String image;
+    private byte[] image;
 
-    public String getImage() {
+    public byte[] getImage() {
         return image;
     }
 
@@ -67,7 +67,7 @@ public class ParkingInfo {
         this.totalspace = totalspace;
     }
 
-    public void setImage(String image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 

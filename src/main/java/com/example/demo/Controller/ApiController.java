@@ -41,7 +41,7 @@ public class ApiController {
             @RequestParam("emptyspace") Integer emptyspace,
             @RequestParam("parkingname") String parkingname,
             @RequestParam("totalspace") Integer totalspace,
-            @RequestParam("image") String image
+            @RequestParam("image") byte[] image
     ) {
         try {
             // MultipartFile에서 이미지 데이터(byte 배열) 추출
@@ -70,7 +70,7 @@ public class ApiController {
                                                     @RequestParam(value = "currentcar", required = false) Integer currentcar,
                                                     @RequestParam(value = "emptyspace", required = false) Integer emptyspace,
                                                     @RequestParam(value = "parkingname", required = false) String parkingname,
-                                                    @RequestParam(value = "image", required = false) String image,
+                                                    @RequestParam(value = "image", required = false) byte[] image,
                                                     @RequestParam(value = "totalspace", required = false) Integer totalspace)  {
         try {
             // ID에 해당하는 데이터를 검색
