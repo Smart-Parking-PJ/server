@@ -16,13 +16,13 @@ public class ParkingInfoSender {
     public static void main(String[] args) {
         // Create a ParkingInfo object with the data you want to update
         ParkingInfo parkingInfo = new ParkingInfo();
-        parkingInfo.setParkingname("S3앞 주차장");
-        parkingInfo.setCurrentcar(0);
-        parkingInfo.setEmptyspace(0);
+        parkingInfo.setParkingname("N7앞 주차장");
+        parkingInfo.setCurrentcar(11);
+        parkingInfo.setEmptyspace(39);
         parkingInfo.setTotalspace(50); // Add totalspace if needed
 
         // Load the image from a file or any other source
-        byte[] imageBytes = loadImageFromFile("image/park4.jpg");
+        byte[] imageBytes = loadImageFromFile("image/park3.jpg");
 
         // Create a RestTemplate with HttpComponentsClientHttpRequestFactory
         RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
@@ -36,13 +36,18 @@ public class ParkingInfoSender {
         body.add("emptyspace", parkingInfo.getEmptyspace());
         body.add("parkingname", parkingInfo.getParkingname());
         body.add("totalspace", parkingInfo.getTotalspace());
-        body.add("image", imageBytes);
+        body.add("image", new ByteArrayResource(imageBytes) {
+            @Override
+            public String getFilename() {
+                return "image.jpg";
+            }
+        });
 
         // Create an HttpEntity with the headers and body
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
         // Define the API endpoint URL for PATCH
-        String apiUrl = "http://43.200.254.150:8080/parking";
+        String apiUrl = "http://43.200.254.150:8080/parking/1";
        // String apiUrl = "http://localhost:8080/parking";
 
         // Send the PATCH request using HttpPatch
