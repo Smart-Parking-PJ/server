@@ -41,11 +41,11 @@ public class ApiController {
             @RequestParam("emptyspace") Integer emptyspace,
             @RequestParam("parkingname") String parkingname,
             @RequestParam("totalspace") Integer totalspace,
-            @RequestParam("image") byte[] image
+            @RequestParam("image") MultipartFile image
     ) {
         try {
             // MultipartFile에서 이미지 데이터(byte 배열) 추출
-            //byte[] imageData = file.getBytes();
+            byte[] imageData = image.getBytes();
 
             // ParkingInfo 객체 생성 및 데이터 설정
             ParkingInfo parkingInfo = new ParkingInfo();
@@ -53,7 +53,7 @@ public class ApiController {
             parkingInfo.setEmptyspace(emptyspace);
             parkingInfo.setParkingname(parkingname);
             parkingInfo.setTotalspace(totalspace);
-            parkingInfo.setImage(image);
+            parkingInfo.setImage(imageData);
 
             // 데이터베이스에 저장
             transactionService.saveData(parkingInfo);

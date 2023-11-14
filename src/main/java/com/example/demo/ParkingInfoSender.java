@@ -7,22 +7,20 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 
 public class ParkingInfoSender {
-    public static void main(String[] args) {
+    public static void main(String[] args){
+        try{
         // Create a ParkingInfo object with the data you want to update
         ParkingInfo parkingInfo = new ParkingInfo();
         parkingInfo.setParkingname("N7앞 주차장");
-        parkingInfo.setCurrentcar(11);
-        parkingInfo.setEmptyspace(39);
+        parkingInfo.setCurrentcar(0);
+        parkingInfo.setEmptyspace(0);
         parkingInfo.setTotalspace(50); // Add totalspace if needed
 
         // Load the image from a file or any other source
-        byte[] imageBytes = loadImageFromFile("image/park3.jpg");
+        byte[] imageBytes = loadImageFromFile("image/park2.jpg");
 
         // Create a RestTemplate with HttpComponentsClientHttpRequestFactory
         RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
@@ -43,6 +41,7 @@ public class ParkingInfoSender {
             }
         });
 
+
         // Create an HttpEntity with the headers and body
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
@@ -56,6 +55,7 @@ public class ParkingInfoSender {
         // Handle the response as needed
         String response = responseEntity.getBody();
         System.out.println("Response: " + response);
+        }catch (Exception e){e.printStackTrace();}
     }
 
     private static byte[] loadImageFromFile(String filePath) {
