@@ -73,7 +73,7 @@ public class ApiController {
                                                     @RequestPart(value = "image", required = false) MultipartFile image,
                                                     @RequestParam(value = "totalspace", required = false) Integer totalspace)  {
         try {
-            byte[] imageData = image.getBytes();
+
             // ID에 해당하는 데이터를 검색
             Optional<ParkingInfo> existingDataOptional = parkingService.getParkingInfoById(id);
 
@@ -83,6 +83,7 @@ public class ApiController {
 
                 // 이미지 데이터 업데이트
                 if (image != null) {
+                    byte[] imageData = image.getBytes();
                     existingData.setImage(imageData);
                 }
                 // 나머지 필드 업데이트

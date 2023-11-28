@@ -46,8 +46,8 @@ public class ParkingInfoSender {
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
         // Define the API endpoint URL for PATCH
-        //String apiUrl = "http://43.200.254.150:8080/parking/1";
-        String apiUrl = "http://localhost:8080/parking/1";
+        String apiUrl = "http://43.200.254.150:8080/parking/1";
+       // String apiUrl = "http://localhost:8080/parking/1";
 
         // Send the PATCH request using HttpPatch
         ResponseEntity<String> responseEntity = restTemplate.exchange(apiUrl, HttpMethod.PATCH, requestEntity, String.class);
